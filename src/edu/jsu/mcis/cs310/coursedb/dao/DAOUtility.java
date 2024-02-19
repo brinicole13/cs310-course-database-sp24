@@ -1,3 +1,4 @@
+//BRI THOMAS
 package edu.jsu.mcis.cs310.coursedb.dao;
 
 import java.sql.*;
@@ -15,11 +16,27 @@ public class DAOUtility {
         try {
         
             if (rs != null) {
-
-                // INSERT YOUR CODE HERE
-
+                //RSMD = RESULTSETMETADATA
+                ResultSetMetaData rsmd = rs.getMetaData();
+                
+                while (rs.next()) {
+                
+                    JsonObject InfoData = new JsonObject();
+                    
+                    //FOR LOOP
+                    for (int i = 1; i <= rsmd.getColumnCount(); i++){
+                        
+                        String columnN = rsmd.getColumnName(i);
+                        Object columnV = rs.getObject(i).toString();
+                        
+                        InfoData.put(columnN, columnV);
+                    }
+                //ADD RECORDS
+                records.add(InfoData);
+ 
             }
             
+        }
         }
         catch (Exception e) {
             e.printStackTrace();

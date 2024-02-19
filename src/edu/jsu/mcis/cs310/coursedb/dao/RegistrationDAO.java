@@ -1,3 +1,4 @@
+//BRI THOMAS
 package edu.jsu.mcis.cs310.coursedb.dao;
 
 import java.sql.Connection;
@@ -23,12 +24,19 @@ public class RegistrationDAO {
         
         try {
             
+            //CONNECTING SQL
             Connection conn = daoFactory.getConnection();
-            
+            String sql = "INSERT INTO REGISTRATION (STUDENTID, TERMID, CRN) VALUES (?,?,?)";
             if (conn.isValid(0)) {
                 
-                // INSERT YOUR CODE HERE
-                
+                //PS = PREPARESTATEMENT 1. STUDENTID, 2. TERMID, 3. CRN
+                ps = conn.prepareStatement(sql);
+                ps.setInt(1, studentid);
+                ps.setInt(2, termid);
+                ps.setInt(3, crn);
+                int Infochanged = ps.executeUpdate();
+                result = Infochanged > 0;
+            
             }
             
         }
@@ -54,11 +62,21 @@ public class RegistrationDAO {
         
         try {
             
+            //CONNECTING SQL
             Connection conn = daoFactory.getConnection();
+            String sql = "DELETE FROM REGISTRATION WHERE STUDENTID = ? AND TERMID = ? AND CRN = ?"; 
             
             if (conn.isValid(0)) {
                 
-                // INSERT YOUR CODE HERE
+                //PS = PREPARESTATEMENT 1. STUDENTID, 2. TERMID, 3. CRN
+                ps = conn.prepareStatement(sql);
+                ps.setInt(1, studentid);
+                ps.setInt(2, termid);
+                ps.setInt(3,crn);
+                int Infochanged = ps.executeUpdate();
+                result = Infochanged > 0;
+                
+                
                 
             }
             
@@ -83,12 +101,17 @@ public class RegistrationDAO {
         PreparedStatement ps = null;
         
         try {
-            
+            // CONNECTING SQL
             Connection conn = daoFactory.getConnection();
-            
+            String sql = "DELETE FROM REGISTRATION WHERE STUDENTID = ? AND TERMID = ?";
             if (conn.isValid(0)) {
                 
-                // INSERT YOUR CODE HERE
+                //PS = PREPARESTATEMENT 1. STUDENTID, 2. TERMID
+                ps = conn.prepareStatement(sql);
+                ps.setInt(1, studentid);
+                ps.setInt(2,termid);
+                int Infochanged = ps.executeUpdate();
+                result = Infochanged > 0;
                 
             }
             
@@ -115,12 +138,19 @@ public class RegistrationDAO {
         ResultSetMetaData rsmd = null;
         
         try {
-            
+            //CONNECTING SQL       
             Connection conn = daoFactory.getConnection();
-            
+            String sql = "SELECT * FROM REGISTRATION WHERE STUDENTID = ? AND TERMID = ? ORDER BY CRN";
             if (conn.isValid(0)) {
                 
-                // INSERT YOUR CODE HERE
+                //PS = PREPARESTATEMENT 1. STUDENTID 2. TERMID
+                ps = conn.prepareStatement(sql);
+                ps.setInt(1, studentid);
+                ps.setInt(2, termid);
+                
+                // EXECUTEQUERY: 
+                rs = ps.executeQuery();
+                result = DAOUtility.getResultSetAsJson(rs);
                 
             }
             
